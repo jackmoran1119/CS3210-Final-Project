@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Car Price Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /*Styling was assisted by ai */
+
+    :root {
+      --bg: #0d173e;
+      --bg-alt: #030823;
+      --card-bg: #111827;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --accent-strong: #0ea5e9;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --danger: #f97373;
+      --success: #4ade80;
+      --border-subtle: #1f2937;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, var(--bg) 45%, var(--bg-alt) 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr);
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .app-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #111827, #020617 80%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      padding: 1.75rem 1.6rem 1.6rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.2rem;
+      gap: 1rem;
+    }
+
+    .title-group h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+    }
+
+    .title-group p {
+      margin: 0.3rem 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--accent);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    h2 {
+      margin: 1.4rem 0 0.8rem;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .field-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .label-sub {
+      font-size: 0.7rem;
+      opacity: 0.9;
+    }
+
+    input,
+    select {
+      background: #020617;
+      border-radius: var(--radius-md);
+      border: 1px solid #1f2937;
+      padding: 0.45rem 0.55rem;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+    input::placeholder {
+      color: #4b5563;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+      background: #020617;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    button {
+  width: 100%;
+  margin-top: 1.3rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+  color: #0b1120;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.0);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.8),
+    0 0 22px rgba(56, 189, 248, 0.75);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.7),
+    0 0 14px rgba(56, 189, 248, 0.55);
+}
+
+.reset-btn {
+  margin-top: 0.8rem;
+  width: 100%;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.reset-btn:hover {
+  background: rgba(30, 64, 175, 0.5);
+  color: var(--text-main);
+  border-color: rgba(129, 140, 248, 0.9);
+}
+
+
+
+    .helper-text {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Right column: result + info */
+
+    .result-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .result-main {
+      background: radial-gradient(circle at top right, #022c22, #022c22 10%, #022c22 40%, #020617 100%);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.5rem;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      box-shadow: 0 14px 30px rgba(34, 197, 94, 0.35);
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .result-header span {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: rgba(187, 247, 208, 0.9);
+    }
+
+    .result-price {
+      margin-top: 0.4rem;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #bbf7d0;
+    }
+
+    .result-sub {
+      margin-top: 0.35rem;
+      font-size: 0.9rem;
+      color: rgba(209, 250, 229, 0.75);
+    }
+
+    .result-placeholder {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .result-placeholder span {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .errors {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.7);
+      color: #fecaca;
+      padding: 0.75rem 0.9rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .errors ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .model-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.2rem;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .model-card h3 {
+      margin: 0 0 0.6rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .model-meta {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 0.4rem 0.8rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.18rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .tag::before {
+      content: "●";
+      font-size: 0.6rem;
+      color: var(--accent);
+    }
+
+    .model-note {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="card">
+      <div class="card-header">
+        <div class="title-group">
+          <h1>Car Price Predictor</h1>
+          <p>Enter known features and let the trained Ridge regression model estimate a price.</p>
+        </div>
+        <div class="badge">Jack Moran Project· CS3120</div>
+      </div>
+
+      {% if errors %}
+        <div class="errors">
+          <strong>We fixed a couple things:</strong>
+          <ul>
+            {% for e in errors %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <form method="post">
+        <!-- Numeric features input fields -->
+        <h2>Numeric Features</h2>
+        <div class="field-grid">
+          {% for feat in numeric_features %}
+            <div class="field-group">
+              <label for="{{ feat }}">
+                {{ numeric_info[feat]["label"] }}
+                <span class="label-sub">· {{ numeric_info[feat]["unit"] }} · {{ feat }}</span>
+              </label>
+              <!-- Get user input here as value -->
+              <input
+                type="number"
+                step="any"
+                id="{{ feat }}"
+                name="{{ feat }}"
+                value="{{ form_values[feat] }}"
+                placeholder="{{ numeric_info[feat]['unit'] }}"
+              >
+            </div>
+          {% endfor %}
+        </div>
+
+        <h2>Categorical Features</h2>
+        <div class="field-grid">
+          {% for feat in categorical_features %}
+            <div class="field-group">
+              <label for="{{ feat }}">
+                {{ categorical_info[feat] }}
+                <span class="label-sub">(optional · {{ feat }})</span>
+              </label>
+              <!-- Make dropdowns for the catagorical features and return users selected option as the value-->
+              <select id="{{ feat }}" name="{{ feat }}">
+                <option value="">(auto default)</option>
+                {% for opt in categorical_choices[feat] %}
+                  <option value="{{ opt }}"
+                    {% if form_values[feat] == opt %}selected{% endif %}>
+                    {{ opt }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% endfor %}
+        </div>
+
+        <button type="submit">Predict Price</button>
+        <div class="helper-text">
+          Leave fields blank to use typical values learned from the training data.
+        </div>
+      </form>
+    </div>
+
+    <!-- Result and model info -->
+    <div class="result-card">
+      {% if prediction is not none %}
+        <div class="result-main">
+          <div class="result-header">
+            <span>Predicted price</span>
+            <span style="font-size: 0.75rem; opacity: 0.8;">USD · point estimate</span>
+          </div>
+          <!-- Display prediction in $ -->
+          <div class="result-price">
+            ${{ prediction }}
+          </div>
+          <div class="result-sub">
+            This estimate comes from your inputs combined with defaults where needed.
+            It’s based on a Ridge regression model trained on the
+            <a href="https://archive.ics.uci.edu/dataset/10/automobile" target="_blank" rel="noopener noreferrer">
+              UCI automobile dataset
+            </a>.
+          </div>
+        </div>
+      {% else %}
+        <div class="result-placeholder">
+          No prediction yet.
+          <span>Fill in a few details on the left and click <strong>Predict Price</strong> to see the model’s estimate.</span>
+        </div>
+      {% endif %}
+
+      <div class="model-card">
+        <h3>About this model</h3>
+        <div class="model-meta">
+          <div><span class="tag">Ridge regression</span></div>
+          <div><span class="tag">Preprocessing pipeline</span></div>
+          <div><span class="tag">Scaled numeric</span></div>
+          <div><span class="tag">One-hot categorical</span></div>
+        </div>
+        <div class="model-note">
+          The model was tuned via cross-validation and evaluated with RMSE and R².
+          Predictions are approximate.
+        </div>
+      </div>
+      <button type="button" id="reset-defaults-btn" class="reset-btn">
+        Clear all fields
+      </button>
+
+    </div>
+  </div>
+
+<script>
+  // Button to reset all input fields to empty
+  document.addEventListener('DOMContentLoaded', function () {
+    const resetBtn = document.getElementById('reset-defaults-btn');
+    if (!resetBtn) return;
+
+    resetBtn.addEventListener('click', function () {
+      // Clear all numeric inputs
+      const numericInputs = document.querySelectorAll('input[type="number"][name]');
+      numericInputs.forEach(function (input) {
+        input.value = "";
+      });
+
+      // Clear all text inputs (if you have any)
+      const textInputs = document.querySelectorAll('input[type="text"][name]');
+      textInputs.forEach(function (input) {
+        input.value = "";
+      });
+
+      // Reset all selects to their blank option
+      const selects = document.querySelectorAll('select[name]');
+      selects.forEach(function (sel) {
+        sel.value = "";
+      });
+    });
+  });
+</script>
+</body>
+</html>
