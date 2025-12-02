@@ -10,7 +10,7 @@ This repo contains
 
 To run the web application.
 
-Clone the repo and run the open the python file from an IDE. 
+Clone the repo and open the python file from an IDE. 
 
 You will need to pip install scikit-learn and pip install pandas.
 
