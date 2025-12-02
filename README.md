@@ -10,4 +10,12 @@ This repo contains
 
 To run the web application.
 
-Clone the repo and run the app python file from an IDE. This should start a web server and provide a url to view the web application. Instruction to use application should be shown on the web app page.
+Clone the repo and run the open the python file from an IDE. 
+
+You will need to pip install scikit-learn and pip install pandas.
+
+Once both libraries are install run the application.
+
+This should start a web server and provide a url to view the web application. 
+
+Instruction to use application should be shown on the web app page.
